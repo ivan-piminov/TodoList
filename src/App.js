@@ -22,7 +22,7 @@ class App extends React.Component {
         let newTask = {
             title: newTitle,
             isDone: false,
-            priority: "priority: low"
+            priority: "low"
         };
 
         let newTasks = [...this.state.tasks, newTask];
