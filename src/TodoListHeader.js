@@ -15,7 +15,7 @@ class TodoListHeader extends React.Component {
     };
     onTitleChanged = (e) => {
         this.setState({title: e.currentTarget.value})
-    }
+    };
 
 
     onAddTaskButtonClick = () => {
@@ -26,7 +26,7 @@ class TodoListHeader extends React.Component {
         } else {
             this.setState({error: true})
         }
-    }
+    };
     render = () => {
         const inputClassName = this.state.error ? "error" : "";
         return (
