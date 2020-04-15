@@ -5,35 +5,32 @@ import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
 
 
-class App extends React.Component {
+class ToDoList extends React.Component {
+
+
+    state = {
+        tasks: [
+        ],
+        filterValue: "Active"
+    };
+    nextItemId = 0;
 
     componentDidMount() {
         this.restoreState()
     }
 
-    state = {
-        tasks: [
-            // {id: 0, title: "JS", isDone: true, priority: 'low'},
-            // {id: 1, title: "HTML", isDone: true, priority: 'low'},
-            // {id: 2, title: "CSS", isDone: false, priority: 'middle'},
-            // {id: 3, title: "React", isDone: false, priority: 'middle'},
-            // {id: 4, title: "Angular", isDone: false, priority: 'low'}
-        ],
-        filterValue: "Active"
-    };
-    nextTaskId = 0;
     saveState = () => {
-        localStorage.setItem("our-state", JSON.stringify(this.state))
+        localStorage.setItem("our-state-"+this.props.id, JSON.stringify(this.state))
     };
 
     restoreState = () => {
-        let stateAsString = localStorage.getItem("our-state");
+        let stateAsString = localStorage.getItem("our-state-"+this.props.id);
         if (stateAsString) {
             let state = JSON.parse(stateAsString);
             this.setState(state, () => {
                 this.state.tasks.forEach((task) => {
-                    if (task.id >= this.nextTaskId) {
-                        this.nextTaskId = task.id + 1
+                    if (task.id >= this.nextItemId) {
+                        this.nextItemId = task.id + 1
                     }
                 })
             })
@@ -41,15 +38,15 @@ class App extends React.Component {
     };
 
     addTask = (newTitle) => {
-        let newTask = {
-            id: this.nextTaskId,
+        let newItem = {
             title: newTitle,
             isDone: false,
-            priority: "low"
+            priority: "low",
+            id: this.nextItemId
         };
 
-        this.nextTaskId++;
-        let newTasks = [...this.state.tasks, newTask];
+        this.nextItemId++;
+        let newTasks = [...this.state.tasks, newItem];
         this.setState({
             tasks: newTasks
         }, () => {
@@ -89,9 +86,8 @@ class App extends React.Component {
 
     render = () => {
         return (
-            <div className="App">
                 <div className="todoList">
-                    <TodoListHeader addTask={this.addTask}/>
+                    <TodoListHeader addTask={this.addTask} title={this.props.title}/>
                     <TodoListTasks
                         changeStatus={this.changeStatus}
                         changeTitle={this.changeTitle}
@@ -112,10 +108,9 @@ class App extends React.Component {
                         changeFilter={this.changeFilter}
                     />
                 </div>
-            </div>
         );
     }
 }
 
-export default App;
+export default ToDoList;
 
