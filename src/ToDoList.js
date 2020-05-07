@@ -9,71 +9,71 @@ class ToDoList extends React.Component {
 
 
     state = {
-        tasks: [
-        ],
         filterValue: "Active"
     };
     nextItemId = 0;
 
-    componentDidMount() {
-        this.restoreState()
-    }
+    // componentDidMount() {
+    //     this.restoreState()
+    // }
 
-    saveState = () => {
-        localStorage.setItem("our-state-"+this.props.id, JSON.stringify(this.state))
-    };
+    // saveState = () => {
+    //     localStorage.setItem("our-state-"+this.props.id, JSON.stringify(this.state))
+    // };
 
-    restoreState = () => {
-        let stateAsString = localStorage.getItem("our-state-"+this.props.id);
-        if (stateAsString) {
-            let state = JSON.parse(stateAsString);
-            this.setState(state, () => {
-                this.state.tasks.forEach((task) => {
-                    if (task.id >= this.nextItemId) {
-                        this.nextItemId = task.id + 1
-                    }
-                })
-            })
-        }
-    };
+    // restoreState = () => {
+    //     let stateAsString = localStorage.getItem("our-state-"+this.props.id);
+    //     if (stateAsString) {
+    //         let state = JSON.parse(stateAsString);
+    //         this.setState(state, () => {
+    //             this.state.tasks.forEach((task) => {
+    //                 if (task.id >= this.nextItemId) {
+    //                     this.nextItemId = task.id + 1
+    //                 }
+    //             })
+    //         })
+    //     }
+    // };
 
     addTask = (newTitle) => {
-        let newItem = {
-            title: newTitle,
-            isDone: false,
-            priority: "low",
-            id: this.nextItemId
-        };
-
-        this.nextItemId++;
-        let newTasks = [...this.state.tasks, newItem];
-        this.setState({
-            tasks: newTasks
-        }, () => {
-            this.saveState()
-        });
+        // let newItem = {
+        //     title: newTitle,
+        //     isDone: false,
+        //     priority: "low",
+        //     id: this.nextItemId
+        // };
+        // this.nextItemId++;
+        this.props.addTask(newTitle,this.props.id)
+        // let newTasks = [...this.state.tasks, newItem];
+        // this.setState({
+        //     tasks: newTasks
+        // }, () => {
+        //     this.saveState()
+        // });
 
     };
     changeFilter = (newFilterValue) => {
         this.setState({
             filterValue: newFilterValue
-        }, () => {
-            this.saveState()}
-            )
+        })
+            // () => {
+            // this.saveState()}
+            // )
     };
 
     changeTask = (taskId, newPropsObj) => {
-        let tasksCopy = this.state.tasks.map(t => {
-            if (t.id !== taskId) {
-                return t;
-            } else {
-                return {...t, ...newPropsObj}
-            }
-        });
-        this.setState({
-            tasks: tasksCopy
-        }, () => {
-            this.saveState()})
+        // let tasksCopy = this.props.tasks.map(t => {
+        //     if (t.id !== taskId) {
+        //         return t;
+        //     } else {
+        //         return {...t, ...newPropsObj}
+        //     }
+        // });
+        // this.setState({
+        //     tasks: tasksCopy
+        // }, () => {
+        //     this.saveState()})
+        this.props.changeTask(taskId, newPropsObj)
     };
 
     changeStatus = (taskId, isDone) => {
@@ -87,12 +87,13 @@ class ToDoList extends React.Component {
     render = () => {
         return (
                 <div className="todoList">
-                    <TodoListHeader addTask={this.addTask} title={this.props.title}/>
+                    <TodoListHeader id={this.props.id} addTask={this.addTask} title={this.props.title}/>
                     <TodoListTasks
                         changeStatus={this.changeStatus}
                         changeTitle={this.changeTitle}
+                        todolistId={this.props.id}
 
-                        tasks={this.state.tasks.filter(t => {
+                        tasks={this.props.tasks.filter(t => {
                             if (this.state.filterValue === "All") {
                                 return true;
                             }

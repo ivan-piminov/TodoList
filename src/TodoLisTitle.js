@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
+import {DELETE_TODOLIST, deleteTodolistAC} from "./reducer";
 
 
 class TodoLisTitle extends React.Component {
@@ -23,10 +24,7 @@ class TodoLisTitle extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         deleteTodolist: (id) => {
-            const action = {
-                type: "DELETE-TODOLIST",
-                id: id
-            };
+            let action = deleteTodolistAC(id);
             dispatch(action)
         },
     };

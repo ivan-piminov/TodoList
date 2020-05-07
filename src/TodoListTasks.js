@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import TodoListTask from './TodoListTask'
+import {DELETE_TASK, DELETE_TODOLIST, deleteTask} from "./reducer";
+import {connect} from "react-redux";
 
 class TodoListTasks extends React.Component {
     render = () => {
@@ -9,6 +11,8 @@ class TodoListTasks extends React.Component {
             return <TodoListTask
                 changeStatus={this.props.changeStatus}
                 changeTitle={this.props.changeTitle}
+                deleteTask = {this.props.deleteTask}
+                todolistId = {this.props.todolistId}
                 task={task}/>
         });
 
@@ -20,5 +24,16 @@ class TodoListTasks extends React.Component {
     }
 }
 
-export default TodoListTasks;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteTask: (taskId,todolistId) => {
+           let action= deleteTask(taskId,todolistId);
+            dispatch(action)
+        },
+    };
+};
+
+const ConnectedTodoListTasks = connect(null, mapDispatchToProps)(TodoListTasks);
+export default ConnectedTodoListTasks;
+
 
