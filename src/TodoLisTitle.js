@@ -3,12 +3,20 @@ import './App.css';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
 import {DELETE_TODOLIST, deleteTodolistAC} from "./reducer";
+import axios from "axios";
 
 
 class TodoLisTitle extends React.Component {
 
     onDelete = () => {
-        this.props.deleteTodolist(this.props.id)
+        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/`+this.props.id,
+            {
+                withCredentials: true,
+                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
+            })
+            .then(res => {
+                this.props.deleteTodolist(this.props.id)
+            });
     };
 
     render = () => {

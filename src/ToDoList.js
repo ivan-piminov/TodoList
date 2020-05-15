@@ -3,19 +3,28 @@ import './App.css';
 import TodoListHeader from "./TodoListHeader";
 import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
+import axios from "axios";
 
 
 class ToDoList extends React.Component {
 
 
     state = {
-        filterValue: "Active"
+        filterValue: "All"
     };
     nextItemId = 0;
 
-    // componentDidMount() {
-    //     this.restoreState()
-    // }
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.1//todo-lists/${this.props.id}/tasks`,
+            {
+                withCredentials: true,
+                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
+            })
+            .then(res => {
+                this.props.setTasks(res.data.items,this.props.id);
+            });
+
+    }
 
     // saveState = () => {
     //     localStorage.setItem("our-state-"+this.props.id, JSON.stringify(this.state))
@@ -35,7 +44,7 @@ class ToDoList extends React.Component {
     //     }
     // };
 
-    addTask = (newTitle) => {
+    addTask = (newTask) => {
         // let newItem = {
         //     title: newTitle,
         //     isDone: false,
@@ -43,7 +52,18 @@ class ToDoList extends React.Component {
         //     id: this.nextItemId
         // };
         // this.nextItemId++;
-        this.props.addTask(newTitle,this.props.id)
+
+        axios.post(`https://social-network.samuraijs.com/api/1.1//todo-lists/${this.props.id}/tasks`,
+            {title: newTask},
+            {
+                withCredentials: true,
+                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
+            })
+            .then(res => {
+                this.props.addTask(res.data.data.item,this.props.id);
+            });
+
+        // this.props.addTask(newTitle,this.props.id)
         // let newTasks = [...this.state.tasks, newItem];
         // this.setState({
         //     tasks: newTasks
@@ -61,7 +81,7 @@ class ToDoList extends React.Component {
             // )
     };
 
-    changeTask = (taskId, newPropsObj) => {
+    changeTask = (task, newPropsObj) => {
         // let tasksCopy = this.props.tasks.map(t => {
         //     if (t.id !== taskId) {
         //         return t;
@@ -73,15 +93,28 @@ class ToDoList extends React.Component {
         //     tasks: tasksCopy
         // }, () => {
         //     this.saveState()})
-        this.props.changeTask(taskId, newPropsObj)
+
+        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks/${task.id}`,
+            {
+                ...task,
+                ...newPropsObj
+            },
+            {
+                withCredentials: true,
+                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
+            })
+            .then(res => {
+                this.props.changeTask(task.id, newPropsObj, this.props.id)
+            });
+
     };
 
-    changeStatus = (taskId, isDone) => {
-        this.changeTask(taskId, {isDone: isDone})
+    changeStatus = (task, isDone) => {
+        this.changeTask(task, {status: isDone ? 2: 0})
     };
 
-    changeTitle = (taskId, newTitle) => {
-        this.changeTask(taskId, {title: newTitle})
+    changeTitle = (task, newTitle) => {
+        this.changeTask(task, {title: newTitle})
     };
 
     render = () => {
@@ -98,10 +131,10 @@ class ToDoList extends React.Component {
                                 return true;
                             }
                             if (this.state.filterValue === "Completed") {
-                                return t.isDone === true;
+                                return t.status === 2;
                             }
                             if (this.state.filterValue === "Active") {
-                                return t.isDone === false;
+                                return t.status !== 2;
                             }
                         })}/>
                     <TodoListFooter

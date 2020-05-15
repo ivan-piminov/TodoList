@@ -3,15 +3,43 @@ import './App.css';
 import ToDoList from "./ToDoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {ADD_TASK, ADD_TODOLIST, addTaskAC, addTodolistAC, CHANGE_TASK, changeTaskAC} from "./reducer";
+import {
+    ADD_TASK,
+    ADD_TODOLIST,
+    addTaskAC,
+    addTodolistAC,
+    CHANGE_TASK,
+    changeTaskAC,
+    setTasksAC,
+    setTodolistsAC
+} from "./reducer";
+import axios from "axios";
 
 class App extends React.Component {
-    // state={
-    //     todolists: []
-    // }
 
     componentDidMount() {
         // this.restoreState()
+
+        // const todoLists = [
+        //     {
+        //         "title": "important", "id": 0, tasks: [
+        //             {"title": "аааа", "isDone": false, "priority": "low", "id": 0},
+        //             {"title": "ббб", "isDone": false, "priority": "low", "id": 1}]
+        //     },
+        //     {
+        //         "title": "not important", "id": 1, tasks: [
+        //             {"title": "вввв", "isDone": false, "priority": "low", "id": 2},
+        //             {"title": "ггг", "isDone": false, "priority": "low", "id": 3}]
+        //     }
+        // ];
+
+
+        axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists",
+            {withCredentials: true})
+            .then(res => {
+                this.props.setTodolists(res.data)
+            });
+
     }
 
     // saveState = () => {
@@ -42,7 +70,16 @@ class App extends React.Component {
         //     id: this.nextTodoList,
         //     tasks:[]
         // };
-        this.props.addTodolist(title);
+        axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists",
+            {title: title},
+            {
+                withCredentials: true,
+                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
+            })
+            .then(res => {
+                this.props.addTodolist( res.data.data.item);
+            });
+
 
         // this.nextTodoListId++;
 
@@ -62,6 +99,7 @@ class App extends React.Component {
             tasks={tl.tasks}
             addTask={this.props.addTask}
             changeTask={this.props.changeTask}
+            setTasks={this.props.setTasks}
         />);
         return (
             <>
@@ -84,19 +122,28 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTodolist: (title) => {
-            let action  = addTodolistAC(title);
+            let action = addTodolistAC(title);
             dispatch(action)
         },
 
-        addTask: (newTitle, todolistId) => {
-            let action= addTaskAC(newTitle, todolistId);
+        addTask: (newTask, todolistId) => {
+            let action = addTaskAC(newTask, todolistId);
             dispatch(action)
         },
 
         changeTask: (taskId, newPropsObj) => {
-            let action= changeTaskAC(taskId, newPropsObj);
+            let action = changeTaskAC(taskId, newPropsObj);
             dispatch(action)
+        },
+        setTodolists: (todoLists) => {
+            let action = setTodolistsAC(todoLists);
+            dispatch(action);
+        },
+        setTasks: (tasks, todolistId) => {
+            let action = setTasksAC(tasks, todolistId);
+            dispatch(action);
         }
+
 
     };
 };
