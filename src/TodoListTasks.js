@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 import TodoListTask from './TodoListTask'
-import {DELETE_TASK, DELETE_TODOLIST, deleteTask} from "./reducer";
+import {deleteTask} from "./reducer";
 import {connect} from "react-redux";
-import axios from "axios";
 
 class TodoListTasks extends React.Component {
 

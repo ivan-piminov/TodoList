@@ -1,29 +1,32 @@
 import React from 'react';
 import './App.css';
-import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {DELETE_TODOLIST, deleteTodolistAC} from "./reducer";
-import axios from "axios";
+import {changeTodolistTitleAC, deleteTodolistAC} from "./reducer";
+import {api} from "./api";
+import {EditableSpan} from "./common/EditableSpan";
 
 
 class TodoLisTitle extends React.Component {
 
-    onDelete = () => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/`+this.props.id,
-            {
-                withCredentials: true,
-                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
-            })
+    deleteTodoList = () => {
+        api.deletetodoList(this.props.id)
             .then(res => {
                 this.props.deleteTodolist(this.props.id)
+            });
+    };
+    changeTitle = (title) => {
+        api.updateTodolistTitle(title, this.props.id)
+            .then(res => {
+                this.props.changeTodolistTitle(title,this.props.id)
             });
     };
 
     render = () => {
         return (
-            <h3 className="todoList-header__title"> {this.props.title}
-                <button onClick={this.onDelete}>X</button>
-            </h3>
+            <>
+                <EditableSpan value={this.props.title} onChange={this.changeTitle}/>
+                <button onClick={this.deleteTodoList}>X</button>
+            </>
         );
     }
 }
@@ -35,6 +38,11 @@ const mapDispatchToProps = (dispatch) => {
             let action = deleteTodolistAC(id);
             dispatch(action)
         },
+        changeTodolistTitle: (title,todolistId) => {
+            let action = changeTodolistTitleAC(title,todolistId);
+            dispatch(action)
+        }
+
     };
 };
 

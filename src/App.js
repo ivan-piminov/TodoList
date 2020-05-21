@@ -3,17 +3,9 @@ import './App.css';
 import ToDoList from "./ToDoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {
-    ADD_TASK,
-    ADD_TODOLIST,
-    addTaskAC,
-    addTodolistAC,
-    CHANGE_TASK,
-    changeTaskAC,
-    setTasksAC,
-    setTodolistsAC
-} from "./reducer";
-import axios from "axios";
+import {addTaskAC, addTodolistAC, changeTaskAC, setTasksAC, setTodolistsAC} from "./reducer";
+import {api} from "./api";
+import {EditableSpan} from "./common/EditableSpan";
 
 class App extends React.Component {
 
@@ -32,10 +24,7 @@ class App extends React.Component {
         //             {"title": "ггг", "isDone": false, "priority": "low", "id": 3}]
         //     }
         // ];
-
-
-        axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists",
-            {withCredentials: true})
+        api.loadtodoLists()
             .then(res => {
                 this.props.setTodolists(res.data)
             });
@@ -70,16 +59,10 @@ class App extends React.Component {
         //     id: this.nextTodoList,
         //     tasks:[]
         // };
-        axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists",
-            {title: title},
-            {
-                withCredentials: true,
-                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
-            })
+        api.addtodoList(title)
             .then(res => {
-                this.props.addTodolist( res.data.data.item);
+                this.props.addTodolist(res.data.data.item);
             });
-
 
         // this.nextTodoListId++;
 

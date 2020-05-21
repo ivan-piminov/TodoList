@@ -1,33 +1,33 @@
 import React from 'react';
 import './App.css';
-import axios from "axios";
+import {api} from "./api";
+import {EditableSpan} from "./common/EditableSpan";
 
 class TodoListTask extends React.Component {
-    state = {
-        editMode: false
-    };
-    activateEdit = () => {
-        this.setState({editMode: true})
-    };
-    deActivateEdit = (e) => {
-        this.props.changeTitle(this.props.task, e.currentTarget.value);
-        this.setState({editMode: false})
-    };
+    // state = {
+    //     editMode: false
+    // };
+    // activateEdit = () => {
+    //     this.setState({editMode: true})
+    // };
+    // deActivateEdit = (e) => {
+    //     this.props.changeTitle(this.props.task, e.currentTarget.value);
+    //     this.setState({editMode: false})
+    // };
+
+    updateTaskTitle = (value) => {
+        this.props.changeTitle(this.props.task, value);
+     };
 
     onIsDoneChanged = (e) => {
         this.props.changeStatus(this.props.task, e.currentTarget.checked);
     };
-    onTitleChanged = (e) => {
-        this.props.changeTitle(this.props.task, e.currentTarget.value);
-    };
+    // onTitleChanged = (e) => {
+    //     this.props.changeTitle(this.props.task, e.currentTarget.value);
+    // };
 
     deleteTask=()=>{
-
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.todolistId}/tasks/${this.props.task.id}`,
-            {
-                withCredentials: true,
-                headers: {"API-KEY":"ffd426a2-955f-4438-aed5-116886d2fff8"}
-            })
+        api.deleteTask(this.props.todolistId,this.props.task.id)
             .then(res => {
                 this.props.deleteTask(this.props.task.id,this.props.todolistId)
             });
@@ -45,16 +45,7 @@ class TodoListTask extends React.Component {
                            onChange={this.onIsDoneChanged}
                            changeTitle={this.props.changeTitle}
                     />
-                    <span>{this.props.task.id} - </span>
-                    {this.state.editMode
-                        ? <input defaultValue={this.props.task.title}
-                                 autoFocus={true}
-                                 onBlur={this.deActivateEdit}
-                                 // onChange={this.onTitleChanged}
-                        />
-
-                        : <span onClick={this.activateEdit}> {this.props.task.title}</span>
-                    }
+                    <EditableSpan value={this.props.task.title} onChange={this.updateTaskTitle}/>
                     <span> priority {this.props.task.priority} <button onClick={()=>{this.deleteTask(this.props.task.id,this.props.todolistId)}}>X</button></span>
                 </div>
             </div>
