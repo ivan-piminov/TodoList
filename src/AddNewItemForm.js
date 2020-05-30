@@ -19,7 +19,6 @@ class AddNewItemForm extends React.Component {
 
 
     onAddItemButtonClick = () => {
-
         let newTitle = this.state.title;
         if (newTitle !== "") {
             this.props.addItem(newTitle);

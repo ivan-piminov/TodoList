@@ -1,12 +1,10 @@
 import React from 'react';
 import './App.css';
 import TodoListTask from './TodoListTask'
-import {deleteTask} from "./reducer";
+import {deleteTaskThunkCreator} from "./reducer";
 import {connect} from "react-redux";
 
 class TodoListTasks extends React.Component {
-
-
 
     render = () => {
 
@@ -29,10 +27,10 @@ class TodoListTasks extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteTask: (taskId, todolistId) => {
-            let action = deleteTask(taskId, todolistId);
+        deleteTask: (todolistId ,taskId) => {
+            let action = deleteTaskThunkCreator(todolistId ,taskId);
             dispatch(action)
-        },
+        }
     };
 };
 

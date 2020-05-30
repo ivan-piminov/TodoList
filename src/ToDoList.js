@@ -3,91 +3,32 @@ import './App.css';
 import TodoListHeader from "./TodoListHeader";
 import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
-import {api} from "./api";
+
 
 
 class ToDoList extends React.Component {
 
-
     state = {
         filterValue: "All"
     };
-    nextItemId = 0;
-
     componentDidMount() {
-        api.loadTasks(this.props.id)
-            .then(res => {
-                this.props.setTasks(res.data.items, this.props.id);
-            });
-
+        this.props.loadTasks(this.props.id);
     }
 
-    // saveState = () => {
-    //     localStorage.setItem("our-state-"+this.props.id, JSON.stringify(this.state))
-    // };
 
-    // restoreState = () => {
-    //     let stateAsString = localStorage.getItem("our-state-"+this.props.id);
-    //     if (stateAsString) {
-    //         let state = JSON.parse(stateAsString);
-    //         this.setState(state, () => {
-    //             this.state.tasks.forEach((task) => {
-    //                 if (task.id >= this.nextItemId) {
-    //                     this.nextItemId = task.id + 1
-    //                 }
-    //             })
-    //         })
-    //     }
-    // };
-
-    addTask = (newTask) => {
-        // let newItem = {
-        //     title: newTitle,
-        //     isDone: false,
-        //     priority: "low",
-        //     id: this.nextItemId
-        // };
-        // this.nextItemId++;
-        api.addTask(newTask, this.props.id)
-
-            .then(res => {
-                this.props.addTask(res.data.data.item, this.props.id);
-            });
-
-        // this.props.addTask(newTitle,this.props.id)
-        // let newTasks = [...this.state.tasks, newItem];
-        // this.setState({
-        //     tasks: newTasks
-        // }, () => {
-        //     this.saveState()
-        // });
-
+    addTask = (taskTitle) => {
+        this.props.addTask(this.props.id,taskTitle);
     };
+
     changeFilter = (newFilterValue) => {
         this.setState({
             filterValue: newFilterValue
         })
-        // () => {
-        // this.saveState()}
-        // )
+
     };
 
     changeTask = (task, newPropsObj) => {
-        // let tasksCopy = this.props.tasks.map(t => {
-        //     if (t.id !== taskId) {
-        //         return t;
-        //     } else {
-        //         return {...t, ...newPropsObj}
-        //     }
-        // });
-        // this.setState({
-        //     tasks: tasksCopy
-        // }, () => {
-        //     this.saveState()})
-api.updateTask(this.props.id,task,newPropsObj)
-            .then(res => {
-                this.props.changeTask(task.id, newPropsObj, this.props.id)
-            });
+        this.props.changeTask(this.props.id, task, newPropsObj);
 
     };
 
@@ -103,6 +44,7 @@ api.updateTask(this.props.id,task,newPropsObj)
         return (
             <div className="todoList">
                 <TodoListHeader id={this.props.id} addTask={this.addTask} title={this.props.title}/>
+                {this.props.todolist.loading ? <span>...Loading</span>:
                 <TodoListTasks
                     changeStatus={this.changeStatus}
                     changeTitle={this.changeTitle}
@@ -118,7 +60,7 @@ api.updateTask(this.props.id,task,newPropsObj)
                         if (this.state.filterValue === "Active") {
                             return t.status !== 2;
                         }
-                    })}/>
+                    })}/>}
                 <TodoListFooter
                     filterValue={this.state.filterValue}
                     changeFilter={this.changeFilter}

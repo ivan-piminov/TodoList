@@ -1,24 +1,16 @@
 import React from 'react';
 import './App.css';
 import {connect} from "react-redux";
-import {changeTodolistTitleAC, deleteTodolistAC} from "./reducer";
-import {api} from "./api";
+import {changeTodolistTitleCreator, deleteTodolistCreator} from "./reducer";
 import {EditableSpan} from "./common/EditableSpan";
-
 
 class TodoLisTitle extends React.Component {
 
     deleteTodoList = () => {
-        api.deletetodoList(this.props.id)
-            .then(res => {
-                this.props.deleteTodolist(this.props.id)
-            });
+        this.props.deleteTodoList(this.props.id);
     };
     changeTitle = (title) => {
-        api.updateTodolistTitle(title, this.props.id)
-            .then(res => {
-                this.props.changeTodolistTitle(title,this.props.id)
-            });
+        this.props.changeTodolistTitle(title,this.props.id);
     };
 
     render = () => {
@@ -34,13 +26,13 @@ class TodoLisTitle extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteTodolist: (id) => {
-            let action = deleteTodolistAC(id);
-            dispatch(action)
+        deleteTodoList: (id) => {
+            let thunk = deleteTodolistCreator(id);
+            dispatch(thunk)
         },
         changeTodolistTitle: (title,todolistId) => {
-            let action = changeTodolistTitleAC(title,todolistId);
-            dispatch(action)
+            let thunk = changeTodolistTitleCreator(title,todolistId);
+            dispatch(thunk)
         }
 
     };

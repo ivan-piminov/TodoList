@@ -14,7 +14,7 @@ export const api = {
     loadtodoLists() {
         return instance.get(`todo-lists`)
     },
-    addTask(taskTitle,tololistId){
+    addTask(tololistId,taskTitle){
         return instance.post(`todo-lists/${tololistId}/tasks`,
             {title: taskTitle})
     },
