@@ -1,24 +1,31 @@
-import React from 'react'
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 
+type StateType = {
+    error: boolean
+    title: string
+}
+type OwnPropsType = {
+    addItem: (newTitle: string) => void
+}
 
-class AddNewItemForm extends React.Component {
+class AddNewItemForm extends React.Component<OwnPropsType,StateType> {
 
-    state = {
+    state:StateType = {
         error: false,
         title: ""
     };
 
-    onKeyPress = (e) => {
+    onKeyPress = (e:KeyboardEvent<HTMLInputElement>):void => {
         if (e.key === "Enter") {
             this.onAddItemButtonClick()
         }
     };
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: ChangeEvent<HTMLInputElement>):void => {
         this.setState({title: e.currentTarget.value})
     };
 
 
-    onAddItemButtonClick = () => {
+    onAddItemButtonClick = ():void => {
         let newTitle = this.state.title;
         if (newTitle !== "") {
             this.props.addItem(newTitle);
@@ -43,5 +50,4 @@ class AddNewItemForm extends React.Component {
         );
     };
 }
-
 export default AddNewItemForm;

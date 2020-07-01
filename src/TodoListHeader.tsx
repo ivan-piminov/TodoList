@@ -3,8 +3,13 @@ import './App.css';
 import AddNewItemForm from "./AddNewItemForm";
 import TodoLisTitle from "./TodoLisTitle";
 
+type OwnPropsType = {
+    id: string
+    title:string
+    addTask:(taskTitle:string)=>void
+}
 
-class TodoListHeader extends React.Component {
+class TodoListHeader extends React.Component<OwnPropsType> {
 
     render = () => {
 
@@ -18,6 +23,5 @@ class TodoListHeader extends React.Component {
         );
     }
 }
-
 export default TodoListHeader;
 

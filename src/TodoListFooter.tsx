@@ -1,16 +1,26 @@
 import React from 'react';
 import './App.css';
 
-class TodoListFooter extends React.Component {
+type StateType = {
+    isHidden:boolean
+}
+
+type OwnPropsType = {
+    changeFilter:(filterValue:string)=>void
+    filterValue:string
+}
+
+
+class TodoListFooter extends React.Component<OwnPropsType,StateType> {
     state = {
         isHidden: false
     };
 
-    onAllFilterClick = () => {this.props.changeFilter("All")};
-    onCompletedFilterClick = () => { this.props.changeFilter("Completed")};
-    onActiveFilterClick = () => { this.props.changeFilter("Active")};
-    onShowFiltersClick = () => {this.setState ({isHidden: false})};
-    onHideFiltersClick = () => {this.setState ({isHidden: true})};
+    onAllFilterClick = ():void=> {this.props.changeFilter("All")};
+    onCompletedFilterClick = ():void => { this.props.changeFilter("Completed")};
+    onActiveFilterClick = ():void => { this.props.changeFilter("Active")};
+    onShowFiltersClick = ():void => {this.setState ({isHidden: false})};
+    onHideFiltersClick = ():void => {this.setState ({isHidden: true})};
 
 
     render = () => {
