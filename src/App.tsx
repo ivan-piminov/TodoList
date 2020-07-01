@@ -21,16 +21,15 @@ type OwnPropsType = {
 type MapDispatchPropsType = {
     loadTodoLists: () => void
     addTodolist: (title: string) => void
-    addTask:(todolistId: string, title: string)=> void
-    changeTask: (todolistId: string, taskId: string, task: TaskType, newPropsObj: UpadateTaskType)=>void
-    loadTasks:(todolistId: string)=> void
+    addTask: (todolistId: string, title: string) => void
+    changeTask: (todolistId: string, taskId: string, task: TaskType, newPropsObj: UpadateTaskType) => void
+    loadTasks: (todolistId: string) => void
 
 }
 
 type MapStatePropsType = {
     todolists: Array<TodoType>
     loading: boolean
-
 }
 
 type PropsType = OwnPropsType & MapDispatchPropsType & MapStatePropsType
@@ -41,7 +40,7 @@ class App extends React.Component<PropsType> {
         this.props.loadTodoLists()
     }
 
-    addToDoList = (title:string):void=> {
+    addToDoList = (title: string): void => {
         this.props.addTodolist(title);
     };
 
@@ -54,7 +53,6 @@ class App extends React.Component<PropsType> {
             tasks={tl.tasks}
             addTask={this.props.addTask}
             changeTask={this.props.changeTask}
-            // setTasks={this.props.setTasks}
             loadTasks={this.props.loadTasks}
         />);
         return (
@@ -72,38 +70,19 @@ class App extends React.Component<PropsType> {
     }
 }
 
-const mapStateToProps = (state:AppStateType):MapStatePropsType => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         todolists: state.todolist.todolists,
         loading: state.todolist.loading
     }
 };
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//
-//         addTask: (todolistId, taskTitle) => {
-//             let thunk = addTaskThunkCreator(todolistId, taskTitle);
-//             dispatch(thunk)
-//         },
-//
-//         changeTask: (todolistId, task, newPropsObj) => {
-//             let thunk = changeTaskThunkCreator(todolistId, task, newPropsObj);
-//             dispatch(thunk)
-//         },
-//         loadTodoLists: () => {
-//             dispatch(loadTodolistThunkCreator())
-//         },
-//         loadTasks: (todolistId) => {
-//             let thunk = loadTasksThunkCreator(todolistId);
-//             dispatch(thunk)
-//         },
-//         addTodolist: (title) => {
-//             let thunk = addTodolistThunkCreator(title);
-//             dispatch(thunk)
-//         }
-//     };
-// };
 
-const ConnectedApp = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {addTask,changeTask,loadTodoLists,loadTasks,addTodolist})(App);
+const ConnectedApp = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+    addTask,
+    changeTask,
+    loadTodoLists,
+    loadTasks,
+    addTodolist
+})(App);
 export default ConnectedApp;
 

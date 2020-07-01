@@ -7,21 +7,20 @@ import {AppStateType} from "./store";
 
 type OwnPropsType = {
     id: string
-    title:string
+    title: string
 }
 
 type MapDispatchPropsType = {
-    deleteTodolist: (id:string) => void;
-    changeTodolistTitle: (title: string,id:string) => void;
+    deleteTodolist: (id: string) => void;
+    changeTodolistTitle: (title: string, id: string) => void;
 }
-
 
 class TodoLisTitle extends React.Component<OwnPropsType & MapDispatchPropsType> {
 
-    deleteTodoList = ():void => {
+    deleteTodoList = (): void => {
         this.props.deleteTodolist(this.props.id);
     };
-    changeTitle = (title:string):void => {
+    changeTitle = (title: string): void => {
         this.props.changeTodolistTitle(title, this.props.id);
     };
 
@@ -34,21 +33,6 @@ class TodoLisTitle extends React.Component<OwnPropsType & MapDispatchPropsType> 
         );
     }
 }
-
-
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         deleteTodoList: (id:string) => {
-//             let thunk = deleteTodolistCreator(id);
-//             dispatch(thunk)
-//         },
-//         changeTodolistTitle: (title:string,todolistId:string) => {
-//             let thunk = changeTodolistTitleCreator(title,todolistId);
-//             dispatch(thunk)
-//         }
-//
-//     };
-// };
 
 const ConnectedTodoLisTitle = connect<{}, MapDispatchPropsType, OwnPropsType, AppStateType>(null, {
     deleteTodolist,

@@ -24,7 +24,6 @@ class AddNewItemForm extends React.Component<OwnPropsType,StateType> {
         this.setState({title: e.currentTarget.value})
     };
 
-
     onAddItemButtonClick = ():void => {
         let newTitle = this.state.title;
         if (newTitle !== "") {

@@ -1,17 +1,24 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 
-export class EditableSpan extends React.Component {
-    state = {
+type StateType = {
+    editMode: boolean
+}
+type OwnPropsType = {
+    value: string
+    onChange: (value: string) => void
+}
+
+export class EditableSpan extends React.Component<OwnPropsType, StateType> {
+    state: StateType = {
         editMode: false
     };
-    activateEdit = () => {
+    activateEdit = (): void => {
         this.setState({editMode: true})
     };
-    deActivateEdit = (e) => {
+    deActivateEdit = (e: ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e.currentTarget.value);
         this.setState({editMode: false})
     };
-
 
     render = () => {
         return (

@@ -15,7 +15,6 @@ const initialState: InitialStateType = {
 };
 
 const reducer = (state: InitialStateType = initialState, action: ActionTypes): InitialStateType => {
-
     switch (action.type) {
         case "SET_TASKS":
             return {
@@ -166,79 +165,63 @@ export const actions = {
 
 //Thunk creators
 export const loadTodoLists = () => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-      let res =  dispatch(actions.loadingTodolistAC(true));
-        api.loadtodoLists()
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+       dispatch(actions.loadingTodolistAC(true));
+        let res = await  api.loadtodoLists();
                 const action = actions.setTodolistsAC(res.data);
                 dispatch(action);
                 dispatch(actions.loadingTodolistAC(false));
-            });
     };
 };
 
 export const deleteTodolist = (todolistId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-        api.deletetodoList(todolistId)
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+        let res = await api.deletetodoList(todolistId);
                 dispatch(actions.deleteTodolistAC(todolistId))
-            });
     };
 };
 
 export const loadTasks = (todolistId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
         dispatch(actions.loadingTasksAC(true, todolistId));
-        api.loadTasks(todolistId)
-            .then(res => {
+        let res = await  api.loadTasks(todolistId);
                 dispatch(actions.setTasksAC(res.data.items, todolistId));
                 dispatch(actions.loadingTasksAC(false, todolistId))
-            });
     }
 };
 
 export const addTodolist = (title: string) => {
-    return (dispatch: Dispatch) => {
-        api.addtodoList(title)
-            .then(res => {
+    return async (dispatch: Dispatch) => {
+        let res = await api.addtodoList(title);
                 dispatch(actions.addTodolistAC(res.data.data.item));
-            });
     }
 };
 
 export const deleteTask = (todolistId: string, taskId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-        api.deleteTask(todolistId, taskId)
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+        let res = await api.deleteTask(todolistId, taskId);
                 dispatch(actions.deleteTaskAC(todolistId, taskId))
-            });
     }
 };
 
 export const addTask = (todolistId: string, title: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-        api.addTask(todolistId, title)
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+        let res = await api.addTask(todolistId, title);
                 dispatch(actions.addTaskAC(todolistId, res.data.data.item));
-            });
     }
 };
 
 export const changeTask = (todolistId: string, taskId: string, task: TaskType, newPropsObj: UpadateTaskType) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-        api.updateTask(todolistId, task, newPropsObj)
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+        let res = await  api.updateTask(todolistId, task, newPropsObj);
                 dispatch(actions.changeTaskAC(todolistId, taskId, newPropsObj))
-            });
     }
 };
 
 export const changeTodolistTitle = (title: string, todolistId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
-        api.updateTodolistTitle(title, todolistId)
-            .then(res => {
+    return async (dispatch: Dispatch<ActionTypes>) => {
+        let res = await  api.updateTodolistTitle(title, todolistId);
                 dispatch(actions.changeTodolistTitleAC(title, todolistId))
-            });
     }
 };
 

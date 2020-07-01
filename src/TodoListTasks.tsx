@@ -7,18 +7,17 @@ import {TaskType, UpadateTaskType} from "./types/entities";
 import {AppStateType} from "./store";
 
 type OwnPropsType = {
-    tasks:Array<TaskType>
-    changeStatus:(task:TaskType,taskId:string, isDone:boolean)=>void
-    changeTitle:(task:TaskType,taskId:string, newTitle:string)=>void
-    todolistId:string
+    tasks: Array<TaskType>
+    changeStatus: (task: TaskType, taskId: string, isDone: boolean) => void
+    changeTitle: (task: TaskType, taskId: string, newTitle: string) => void
+    todolistId: string
 }
 
 type MapDispatchPropsType = {
-    deleteTask:(todolistId:string ,taskId:string)=>void
+    deleteTask: (todolistId: string, taskId: string) => void
 }
 
-
-class TodoListTasks extends React.Component <OwnPropsType & MapDispatchPropsType>  {
+class TodoListTasks extends React.Component <OwnPropsType & MapDispatchPropsType> {
 
     render = () => {
 
@@ -39,16 +38,6 @@ class TodoListTasks extends React.Component <OwnPropsType & MapDispatchPropsType
     }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         deleteTask: (todolistId ,taskId) => {
-//             let action = deleteTaskThunkCreator(todolistId ,taskId);
-//             dispatch(action)
-//         }
-//     };
-// };
-
 const ConnectedTodoListTasks = connect<{}, MapDispatchPropsType, OwnPropsType, AppStateType>(null, {deleteTask})(TodoListTasks);
 export default ConnectedTodoListTasks;
-
 

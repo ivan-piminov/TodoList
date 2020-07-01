@@ -8,56 +8,23 @@ const instance = axios.create({
     headers: {"API-KEY": "de397352-5e3e-4a18-9ed2-383661a8969f"}
 });
 
-
-type UpdateTaskType = {
+type CommonApiType<T> = {
     resultCode: number
     messages: Array<string>
-    data: {
-        item: TaskType
-    }
-}
-type DeleteTodolistType = {
-    resultCode: number
-    messages: Array<string>
-    data: {}
-}
-type CreateTodoType = {
-    resultCode: number
-    messages: Array<string>
-    data: {
-        item: TodoType
-    }
+    data: T
 }
 
 type LoadTasksType = {
-    items: Array<TaskType>
     totalCount: number
+    items: Array<TaskType>
     error: string
 }
 
-
-type AddTaskType = {
-    resultCode: number
-    messages: Array<string>
-    data: {
-        item: TaskType
-    }
-}
-
-type DeleteTaskType = {
-    resultCode: number
-    messages: Array<string>
-    data: {}
-}
-
-
-
 type UpdateTodolistTitleType = {
+    resultCode: number
     data: {}
     messages: []
-    resultCode: number
 }
-
 
 export const api = {
     loadTasks(tololistId: string) {
@@ -67,7 +34,7 @@ export const api = {
         return instance.get<Array<TodoType>>(`todo-lists`)
     },
     addTask(tololistId: string, taskTitle: string) {
-        return instance.post<AddTaskType>(`todo-lists/${tololistId}/tasks`,
+        return instance.post<CommonApiType<{ item: TaskType }>>(`todo-lists/${tololistId}/tasks`,
             {title: taskTitle})
     },
     updateTask(tololistId: string, task: TaskType, delta: UpadateTaskType) {
@@ -75,17 +42,17 @@ export const api = {
             ...task,
             ...delta
         };
-        return instance.put<UpdateTaskType>(`todo-lists/${tololistId}/tasks/${task.id}`, data)
+        return instance.put<CommonApiType<{ item: TaskType }>>(`todo-lists/${tololistId}/tasks/${task.id}`, data)
     },
     deletetodoList(tololistId: string) {
-        return instance.delete<DeleteTodolistType>(`todo-lists/` + tololistId)
+        return instance.delete<CommonApiType<{}>>(`todo-lists/` + tololistId)
     },
     deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<DeleteTaskType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<CommonApiType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
 
     addtodoList(title: string) {
-        return instance.post<CreateTodoType>(`todo-lists`,
+        return instance.post<CommonApiType<{ item: TodoType }>>(`todo-lists`,
             {title})
     },
     updateTodolistTitle(title: string, id: string) {
