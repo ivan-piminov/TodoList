@@ -128,6 +128,7 @@ const reducer = (state: InitialStateType = initialState, action: ActionTypes): I
 
 export default reducer;
 
+
 //Action creators
 
 type ActionTypes = InferActionTypes<typeof actions>
