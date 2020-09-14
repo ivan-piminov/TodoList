@@ -1,11 +1,11 @@
 import axios from "axios";
-import {TaskType, TodoType, UpadateTaskType} from "./types/entities";
+import {TaskType, TodoType, UpadateTaskType} from "../types/entities";
 
 const baseURL = `https://social-network.samuraijs.com/api/1.1/`;
 const instance = axios.create({
     baseURL: baseURL,
     withCredentials: true,
-    headers: {"API-KEY": "81fab503-698d-43e8-af57-37f0fdd7ac88"}
+    headers: {"API-KEY": "35c4c1fd-0426-493c-acbd-df6d093dc5fc"}
 });
 
 type CommonApiType<T> = {

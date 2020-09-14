@@ -1,8 +1,4 @@
 
-.todoList {
-  width: 500px;
-  margin: 0 auto;
-}
 .todoList > div {
   padding: 10px;
 }
@@ -24,6 +20,3 @@
   flex-direction: row;
 }
 
-.todoList {
-  width: 300px;
-}

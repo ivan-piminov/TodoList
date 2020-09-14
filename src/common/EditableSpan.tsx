@@ -22,15 +22,15 @@ export class EditableSpan extends React.Component<OwnPropsType, StateType> {
 
     render = () => {
         return (
-            <>
+            <span className='mt-1' >
                 {this.state.editMode
                     ? <input defaultValue={this.props.value}
                              autoFocus={true}
                              onBlur={this.deActivateEdit}
                     />
-                    : <span onClick={this.activateEdit}> {this.props.value}</span>
+                    : <span onClick={this.activateEdit} style={{paddingTop:"3px", fontWeight:'bold'}}> {this.props.value}</span>
                 }
-            </>
+            </span>
         );
     }
 }

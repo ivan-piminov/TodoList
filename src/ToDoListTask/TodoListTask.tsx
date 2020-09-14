@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
-import './App.css';
-import {EditableSpan} from "./common/EditableSpan";
-import {TaskType, UpadateTaskType} from "./types/entities";
+import '../App.css';
+import {EditableSpan} from "../common/EditableSpan";
+import {TaskType, UpadateTaskType} from "../types/entities";
 
 type OwnPropsType = {
     changeTitle: (task: TaskType, taskId: string, newTitle: string) => void
@@ -28,17 +28,17 @@ class TodoListTask extends React.Component <OwnPropsType> {
     render = () => {
         let isDone = this.props.task.status === 2;
         let taskIsDone = isDone
-            ? "todoList-task done"
-            : "todoList-task";
+            ? "todoList-task done mt-2"
+            : "todoList-task mt-2";
         return (
-            <div className="todoList-tasks">
-                <div className={taskIsDone}>
+            <div>
+                <div className={taskIsDone} >
                     <input type="checkbox" checked={isDone}
                            onChange={this.onIsDoneChanged}
                     />
                     <EditableSpan value={this.props.task.title} onChange={this.updateTaskTitle}/>
-                    <span> priority {this.props.task.priority}
-                        <button onClick={() => {
+                    <span>
+                        <button className="btn btn-danger btn-sm float-right" onClick={() => {
                             this.deleteTask(this.props.todolistId, this.props.task.id)
                         }}>X</button></span>
                 </div>

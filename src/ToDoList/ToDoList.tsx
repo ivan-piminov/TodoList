@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
-import TodoListHeader from "./TodoListHeader";
-import TodoListTasks from "./TodoListTasks";
-import TodoListFooter from "./TodoListFooter";
-import {TaskType, TodoType, UpadateTaskType} from "./types/entities";
+import '../App.css';
+import TodoListHeader from "../ToDoListHeader/TodoListHeader";
+import TodoListTasks from "../ToDoListTasks/TodoListTasks";
+import TodoListFooter from "../ToDoListFooter/TodoListFooter";
+import {TaskType, TodoType, UpadateTaskType} from "../types/entities";
 
 
 type StateType = {
@@ -56,14 +56,15 @@ class ToDoList extends React.Component<OwnPropsType, StateType> {
 
     render = () => {
         return (
-            <div className="todoList">
+            <div className="todoList mt-3 ml-3" style={{border: "2px solid black", background: "white"}}>
                 <TodoListHeader id={this.props.id} addTask={this.addTask} title={this.props.title}/>
-                {this.props.todolist.loading ? <span>...Loading</span> :
-                    <TodoListTasks
+                {this.props.todolist.loading ?
+                    <div className="spinner-border text-primary" role="status" style={{marginLeft: "45%"}}>
+                        <span className="sr-only">Loading...</span></div>
+                    : <TodoListTasks
                         changeStatus={this.changeStatus}
                         changeTitle={this.changeTitle}
                         todolistId={this.props.id}
-
                         tasks={this.props.tasks.filter(t => {
                             if (this.state.filterValue === "All") {
                                 return true;

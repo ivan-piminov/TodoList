@@ -1,5 +1,5 @@
-import {api} from "./api";
-import {TaskType, TodoType, UpadateTaskType} from "./types/entities";
+import {api} from "../DAL/api";
+import {TaskType, TodoType, UpadateTaskType} from "../types/entities";
 import {Dispatch} from "redux";
 import {InferActionTypes} from "./store";
 

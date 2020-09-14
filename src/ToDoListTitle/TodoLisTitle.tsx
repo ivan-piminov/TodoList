@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import {connect} from "react-redux";
-import {changeTodolistTitle, deleteTodolist} from "./reducer";
-import {EditableSpan} from "./common/EditableSpan";
-import {AppStateType} from "./store";
+import {changeTodolistTitle, deleteTodolist} from "../BLL/reducer";
+import {EditableSpan} from "../common/EditableSpan";
+import {AppStateType} from "../BLL/store";
 
 type OwnPropsType = {
     id: string
@@ -26,10 +26,10 @@ class TodoLisTitle extends React.Component<OwnPropsType & MapDispatchPropsType> 
 
     render = () => {
         return (
-            <>
+            <div className='input-group d-flex justify-content-between pl-3'>
                 <EditableSpan value={this.props.title} onChange={this.changeTitle}/>
-                <button onClick={this.deleteTodoList}>X</button>
-            </>
+                <button onClick={this.deleteTodoList} className="btn btn-danger btn-sm ml-1" >X</button>
+            </div>
         );
     }
 }

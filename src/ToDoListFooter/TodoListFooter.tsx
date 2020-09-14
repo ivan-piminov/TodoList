@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 
 type StateType = {
     isHidden:boolean
@@ -24,15 +24,14 @@ class TodoListFooter extends React.Component<OwnPropsType,StateType> {
 
 
     render = () => {
-        let ClassForALL = this.props.filterValue === "All" ? 'filter-active' : "";
-        let ClassForCompleted = this.props.filterValue === "Completed" ? 'filter-active' : "";
-        let ClassForActive = this.props.filterValue === "Active" ? 'filter-active' : "";
+        let ClassForALL = this.props.filterValue === "All" ? 'active btn btn-outline-info btn-sm' : "btn btn-outline-info btn-sm";
+        let ClassForCompleted = this.props.filterValue === "Completed" ? 'active btn btn-outline-info btn-sm' : "btn btn-outline-info btn-sm ml-1";
+        let ClassForActive = this.props.filterValue === "Active" ? 'active btn btn-outline-info btn-sm' : "btn btn-outline-info btn-sm ml-1";
 
         return (
-            <div className="">
-                <div className="todoList-footer">
+                <div className="d-flex justify-content-center">
                     {!this.state.isHidden && <div>
-                    <button className={ClassForALL}
+                    <button  className={ClassForALL }
                             onClick={this.onAllFilterClick}
                     >All
                     </button>
@@ -47,10 +46,9 @@ class TodoListFooter extends React.Component<OwnPropsType,StateType> {
                     >Active
                     </button>
                     </div>}
-                        {!this.state.isHidden && <span onClick={this.onHideFiltersClick}> hide </span>}
-                        {this.state.isHidden && <span onClick={this.onShowFiltersClick}> show </span>}
+                        {!this.state.isHidden && <span  onClick={this.onHideFiltersClick} className="btn btn-outline-info btn-sm ml-1"> hide </span>}
+                        {this.state.isHidden && <span onClick={this.onShowFiltersClick} className="btn btn-outline-info btn-sm ml-1"> show </span>}
                 </div>
-            </div>
         );
     }
 }

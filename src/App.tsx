@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import ToDoList from "./ToDoList";
-import AddNewItemForm from "./AddNewItemForm";
+import ToDoList from "./ToDoList/ToDoList";
+import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import {
     addTask,
@@ -9,9 +9,16 @@ import {
     changeTask,
     loadTasks,
     loadTodoLists
-} from "./reducer";
+} from "./BLL/reducer";
 import {TaskType, TodoType, UpadateTaskType} from "./types/entities";
-import {AppStateType} from "./store";
+import {AppStateType} from "./BLL/store";
+import background from './Back.jpg'
+
+const back = {
+    backgroundImage: 'url(' + background + ')',
+    backgroundSize: "cover",
+    minHeight: '100vh'
+};
 
 
 type OwnPropsType = {
@@ -54,18 +61,21 @@ class App extends React.Component<PropsType> {
             addTask={this.props.addTask}
             changeTask={this.props.changeTask}
             loadTasks={this.props.loadTasks}
+
         />);
         return (
-            <>
+            <div style={back}>
                 <div>
                     <AddNewItemForm addItem={this.addToDoList}/>
                 </div>
-                <div className="App">
+                <div className="App d-flex justify-content-around flex-wrap">
                     {this.props.loading
-                        ? <span>...Loading</span>
+                        ? <div className="spinner-border text-light" role="status" style={{marginTop: '15px'}}>
+                            <span className="sr-only">Loading...</span>
+                        </div>
                         : todolists}
                 </div>
-            </>
+            </div>
         );
     }
 }
