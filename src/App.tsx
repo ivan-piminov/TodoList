@@ -64,11 +64,11 @@ class App extends React.Component<PropsType> {
 
         />);
         return (
-            <div style={back}>
+            <div style={back} className="container-fluid">
                 <div>
                     <AddNewItemForm addItem={this.addToDoList}/>
                 </div>
-                <div className="App d-flex justify-content-around flex-wrap">
+                <div className=" d-flex justify-content-around flex-wrap">
                     {this.props.loading
                         ? <div className="spinner-border text-light" role="status" style={{marginTop: '15px'}}>
                             <span className="sr-only">Loading...</span>

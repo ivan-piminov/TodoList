@@ -56,7 +56,7 @@ class ToDoList extends React.Component<OwnPropsType, StateType> {
 
     render = () => {
         return (
-            <div className="todoList mt-3 ml-3" style={{border: "2px solid black", background: "white"}}>
+            <div className="todoList mt-3 ml-3 " style={{border: "2px solid black", background: "white"}}>
                 <TodoListHeader id={this.props.id} addTask={this.addTask} title={this.props.title}/>
                 {this.props.todolist.loading ?
                     <div className="spinner-border text-primary" role="status" style={{marginLeft: "45%"}}>
